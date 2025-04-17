@@ -10,6 +10,12 @@ const serviceSchema = zod_1.z.object({
         status: zod_1.z.enum(["in-progress", "done", "pending"]),
     })
 });
+const updateSericeShma = zod_1.z.object({
+    body: zod_1.z.object({
+        completionDate: zod_1.z.string().transform((str) => new Date(str)),
+    })
+});
 exports.serviceRecordValidation = {
     serviceSchema,
+    updateSericeShma,
 };

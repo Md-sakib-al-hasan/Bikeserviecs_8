@@ -1,10 +1,9 @@
-import { Service, Status } from "@prisma/client";
-import { partialUtil } from "zod/lib/helpers/partialUtil";
+import {  ServiceRecord, Status } from "@prisma/client";
 import { prisma } from "../../utils/prismaclient";
 import httpStatus from "http-status";
 import AppError from "../../errors/appError";
 
-const createServiceRecordDB= async (payload:Service) => {
+const createServiceRecordDB= async (payload:ServiceRecord) => {
     const isbikexits = await prisma.bike.findUnique({
         where: {
             bikeId: payload.bikeId
@@ -13,19 +12,19 @@ const createServiceRecordDB= async (payload:Service) => {
      if(!isbikexits) {
         throw new AppError(httpStatus.NOT_FOUND, "Bike not found")
      }
-    const service = await prisma.service.create({
+    const service = await prisma.serviceRecord.create({
         data: payload
     })
     return service;
 }
 
 const getAllServiceRecordDB= async () => {
-    const service = await prisma.service.findMany()
+    const service = await prisma.serviceRecord.findMany()
     return service;
 }
 
 const getServiceRecordDB= async (id:string) => {
-    const isexiteService = await prisma.service.findUnique({
+    const isexiteService = await prisma.serviceRecord.findUnique({
         where: {
             serviceId: id
         }
@@ -34,7 +33,7 @@ const getServiceRecordDB= async (id:string) => {
         throw new AppError(httpStatus.NOT_FOUND,"Service not found")
     }
 
-    const service = await prisma.service.findUnique({
+    const service = await prisma.serviceRecord.findUnique({
         where: {
             serviceId: id
         }
@@ -42,11 +41,11 @@ const getServiceRecordDB= async (id:string) => {
     return service;
 }
 
-const updateServiceRecordDB= async (id:string) => {
+const updateServiceRecordDB= async (id:string, payload:Pick<ServiceRecord,  'completionDate'>) => {
 
     const update = await prisma.$transaction(async (prismaclient) => {
 
-        const isexiteService = await prismaclient.service.findUnique({
+        const isexiteService = await prismaclient.serviceRecord.findUnique({
             where: {
                 serviceId: id
             }
@@ -55,13 +54,15 @@ const updateServiceRecordDB= async (id:string) => {
             throw new AppError(httpStatus.NOT_FOUND,"Service not found")
         }
     
+        const compteDate = payload.completionDate ? new Date(payload.completionDate) : new Date();
 
-        const updateservices = await prismaclient.service.update({
+        const updateservices = await prismaclient.serviceRecord.update({
             where:{
                 serviceId:id
             },
             data:{
-                completionDate: new Date()
+                completionDate: compteDate,
+                status: Status.done,
             }
         })
         return updateservices;
@@ -75,7 +76,7 @@ const getServiceRecordwithStatus = async () => {
     const sevenDaysAgo = new Date();
      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-    const service = await prisma.service.findMany({
+    const service = await prisma.serviceRecord.findMany({
         where:
             {
                 status:{

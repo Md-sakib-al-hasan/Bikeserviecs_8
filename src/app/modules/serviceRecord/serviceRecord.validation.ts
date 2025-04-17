@@ -9,11 +9,18 @@ const serviceSchema = z.object({
     })
 })
 
+const updateSericeShma = z.object({
+    body:z.object({
+        completionDate: z.string().transform((str) => new Date(str)),
+    })
+})
+
+
 
 
 
 export const serviceRecordValidation = {
     serviceSchema,
-    
+    updateSericeShma,
     
 }

@@ -2,6 +2,7 @@ import { Router } from "express";
 import validateRequest from "../../middlewares/validateRequest";
 import { serviceRecordValidation } from "./serviceRecord.validation";
 import { ServiceRecordController } from "./serviceRecord.controller";
+import { validateHeaderValue } from "http";
 
 const router = Router();
 
@@ -13,7 +14,7 @@ router.get('/status',ServiceRecordController.getServiceRecordsWithStatus)
 
 router.get('/:id',ServiceRecordController.getServiceRecordById)
 
-router.put('/:id',ServiceRecordController.updateServiceRecordById)
+router.put('/:id',validateRequest(serviceRecordValidation.updateSericeShma),ServiceRecordController.updateServiceRecordById)
 
 
 

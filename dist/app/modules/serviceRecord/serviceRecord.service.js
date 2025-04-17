@@ -26,17 +26,17 @@ const createServiceRecordDB = (payload) => __awaiter(void 0, void 0, void 0, fun
     if (!isbikexits) {
         throw new appError_1.default(http_status_1.default.NOT_FOUND, "Bike not found");
     }
-    const service = yield prismaclient_1.prisma.service.create({
+    const service = yield prismaclient_1.prisma.serviceRecord.create({
         data: payload
     });
     return service;
 });
 const getAllServiceRecordDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const service = yield prismaclient_1.prisma.service.findMany();
+    const service = yield prismaclient_1.prisma.serviceRecord.findMany();
     return service;
 });
 const getServiceRecordDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const isexiteService = yield prismaclient_1.prisma.service.findUnique({
+    const isexiteService = yield prismaclient_1.prisma.serviceRecord.findUnique({
         where: {
             serviceId: id
         }
@@ -44,16 +44,16 @@ const getServiceRecordDB = (id) => __awaiter(void 0, void 0, void 0, function* (
     if (!isexiteService) {
         throw new appError_1.default(http_status_1.default.NOT_FOUND, "Service not found");
     }
-    const service = yield prismaclient_1.prisma.service.findUnique({
+    const service = yield prismaclient_1.prisma.serviceRecord.findUnique({
         where: {
             serviceId: id
         }
     });
     return service;
 });
-const updateServiceRecordDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+const updateServiceRecordDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const update = yield prismaclient_1.prisma.$transaction((prismaclient) => __awaiter(void 0, void 0, void 0, function* () {
-        const isexiteService = yield prismaclient.service.findUnique({
+        const isexiteService = yield prismaclient.serviceRecord.findUnique({
             where: {
                 serviceId: id
             }
@@ -61,12 +61,14 @@ const updateServiceRecordDB = (id) => __awaiter(void 0, void 0, void 0, function
         if (!isexiteService) {
             throw new appError_1.default(http_status_1.default.NOT_FOUND, "Service not found");
         }
-        const updateservices = yield prismaclient.service.update({
+        const compteDate = payload.completionDate ? new Date(payload.completionDate) : new Date();
+        const updateservices = yield prismaclient.serviceRecord.update({
             where: {
                 serviceId: id
             },
             data: {
-                completionDate: new Date()
+                completionDate: compteDate,
+                status: client_1.Status.done,
             }
         });
         return updateservices;
@@ -76,7 +78,7 @@ const updateServiceRecordDB = (id) => __awaiter(void 0, void 0, void 0, function
 const getServiceRecordwithStatus = () => __awaiter(void 0, void 0, void 0, function* () {
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-    const service = yield prismaclient_1.prisma.service.findMany({
+    const service = yield prismaclient_1.prisma.serviceRecord.findMany({
         where: {
             status: {
                 in: [client_1.Status.in_progress, client_1.Status.pending]
