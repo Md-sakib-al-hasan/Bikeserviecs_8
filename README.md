@@ -12,7 +12,7 @@ This project provides a RESTful API for managing a bike servicing center's opera
 
 ## Source Code
 
-- **Backend Source Code**: [Portfolio Backend GitHub](https://github.com/Md-sakib-al-hasan/PortfolioBackend5)
+- **Backend Source Code**: [Portfolio Backend GitHub](https://github.com/Md-sakib-al-hasan/Bikeserviecs_8?tab=readme-ov-file)
 
 ---
 
@@ -54,7 +54,7 @@ This project provides a RESTful API for managing a bike servicing center's opera
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/Md-sakib-al-hasan/blogging
+   git clone https://github.com/Md-sakib-al-hasan/Bikeserviecs_8?tab=readme-ov-file
 
    ```
 
