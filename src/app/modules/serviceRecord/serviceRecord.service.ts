@@ -5,6 +5,14 @@ import httpStatus from "http-status";
 import AppError from "../../errors/appError";
 
 const createServiceRecordDB= async (payload:Service) => {
+    const isbikexits = await prisma.bike.findUnique({
+        where: {
+            bikeId: payload.bikeId
+        }
+    })
+     if(!isbikexits) {
+        throw new AppError(httpStatus.NOT_FOUND, "Bike not found")
+     }
     const service = await prisma.service.create({
         data: payload
     })
@@ -35,22 +43,18 @@ const getServiceRecordDB= async (id:string) => {
 }
 
 const updateServiceRecordDB= async (id:string) => {
-    const isexiteService = await prisma.service.findUnique({
-        where: {
-            serviceId: id
-        }
-    })
-    if(!isexiteService){
-        throw new AppError(httpStatus.NOT_FOUND,"Service not found")
-    }
 
     const update = await prisma.$transaction(async (prismaclient) => {
 
-        await prismaclient.service.findFirstOrThrow({
-            where:{
-                serviceId:id
-            },
+        const isexiteService = await prismaclient.service.findUnique({
+            where: {
+                serviceId: id
+            }
         })
+        if(!isexiteService){
+            throw new AppError(httpStatus.NOT_FOUND,"Service not found")
+        }
+    
 
         const updateservices = await prismaclient.service.update({
             where:{

@@ -4,7 +4,14 @@ import AppError from "../../errors/appError";
 import httpStatus from "http-status";
 
 const createBikeDB = async (bike:Bike) => {
-   
+   const isExiteCustomer = await prisma.customer.findUnique({
+       where:{
+           customerId:bike.customerId
+       }
+   })
+   if(!isExiteCustomer){
+       throw new AppError(httpStatus.NOT_FOUND,"Customer not found")
+   }
    
    const newBike = await prisma.bike.create({
        data:bike

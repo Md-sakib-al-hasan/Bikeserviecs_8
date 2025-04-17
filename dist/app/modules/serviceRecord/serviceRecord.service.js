@@ -18,6 +18,14 @@ const prismaclient_1 = require("../../utils/prismaclient");
 const http_status_1 = __importDefault(require("http-status"));
 const appError_1 = __importDefault(require("../../errors/appError"));
 const createServiceRecordDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const isbikexits = yield prismaclient_1.prisma.bike.findUnique({
+        where: {
+            bikeId: payload.bikeId
+        }
+    });
+    if (!isbikexits) {
+        throw new appError_1.default(http_status_1.default.NOT_FOUND, "Bike not found");
+    }
     const service = yield prismaclient_1.prisma.service.create({
         data: payload
     });
@@ -44,20 +52,15 @@ const getServiceRecordDB = (id) => __awaiter(void 0, void 0, void 0, function* (
     return service;
 });
 const updateServiceRecordDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const isexiteService = yield prismaclient_1.prisma.service.findUnique({
-        where: {
-            serviceId: id
-        }
-    });
-    if (!isexiteService) {
-        throw new appError_1.default(http_status_1.default.NOT_FOUND, "Service not found");
-    }
     const update = yield prismaclient_1.prisma.$transaction((prismaclient) => __awaiter(void 0, void 0, void 0, function* () {
-        yield prismaclient.service.findFirstOrThrow({
+        const isexiteService = yield prismaclient.service.findUnique({
             where: {
                 serviceId: id
-            },
+            }
         });
+        if (!isexiteService) {
+            throw new appError_1.default(http_status_1.default.NOT_FOUND, "Service not found");
+        }
         const updateservices = yield prismaclient.service.update({
             where: {
                 serviceId: id

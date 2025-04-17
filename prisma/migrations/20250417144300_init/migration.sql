@@ -36,6 +36,9 @@ CREATE TABLE "Services" (
     CONSTRAINT "Services_pkey" PRIMARY KEY ("serviceId")
 );
 
+-- CreateIndex
+CREATE UNIQUE INDEX "Customers_email_key" ON "Customers"("email");
+
 -- AddForeignKey
 ALTER TABLE "Bikes" ADD CONSTRAINT "Bikes_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customers"("customerId") ON DELETE RESTRICT ON UPDATE CASCADE;
 

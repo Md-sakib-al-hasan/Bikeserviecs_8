@@ -17,6 +17,14 @@ const prismaclient_1 = require("../../utils/prismaclient");
 const appError_1 = __importDefault(require("../../errors/appError"));
 const http_status_1 = __importDefault(require("http-status"));
 const createBikeDB = (bike) => __awaiter(void 0, void 0, void 0, function* () {
+    const isExiteCustomer = yield prismaclient_1.prisma.customer.findUnique({
+        where: {
+            customerId: bike.customerId
+        }
+    });
+    if (!isExiteCustomer) {
+        throw new appError_1.default(http_status_1.default.NOT_FOUND, "Customer not found");
+    }
     const newBike = yield prismaclient_1.prisma.bike.create({
         data: bike
     });
