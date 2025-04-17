@@ -8,10 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ServiceRecordService = void 0;
 const client_1 = require("@prisma/client");
 const prismaclient_1 = require("../../utils/prismaclient");
+const http_status_1 = __importDefault(require("http-status"));
+const appError_1 = __importDefault(require("../../errors/appError"));
 const createServiceRecordDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const service = yield prismaclient_1.prisma.service.create({
         data: payload
@@ -23,6 +28,14 @@ const getAllServiceRecordDB = () => __awaiter(void 0, void 0, void 0, function* 
     return service;
 });
 const getServiceRecordDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const isexiteService = yield prismaclient_1.prisma.service.findUnique({
+        where: {
+            serviceId: id
+        }
+    });
+    if (!isexiteService) {
+        throw new appError_1.default(http_status_1.default.NOT_FOUND, "Service not found");
+    }
     const service = yield prismaclient_1.prisma.service.findUnique({
         where: {
             serviceId: id
@@ -31,6 +44,14 @@ const getServiceRecordDB = (id) => __awaiter(void 0, void 0, void 0, function* (
     return service;
 });
 const updateServiceRecordDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const isexiteService = yield prismaclient_1.prisma.service.findUnique({
+        where: {
+            serviceId: id
+        }
+    });
+    if (!isexiteService) {
+        throw new appError_1.default(http_status_1.default.NOT_FOUND, "Service not found");
+    }
     const update = yield prismaclient_1.prisma.$transaction((prismaclient) => __awaiter(void 0, void 0, void 0, function* () {
         yield prismaclient.service.findFirstOrThrow({
             where: {

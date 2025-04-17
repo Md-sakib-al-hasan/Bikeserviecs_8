@@ -8,10 +8,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CustomerService = void 0;
 const prismaclient_1 = require("../../utils/prismaclient");
+const appError_1 = __importDefault(require("../../errors/appError"));
+const http_status_1 = __importDefault(require("http-status"));
 const createCustomerDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const isExiteCustomer = yield prismaclient_1.prisma.customer.findUnique({
+        where: {
+            email: payload.email
+        }
+    });
+    if (isExiteCustomer) {
+        throw new appError_1.default(http_status_1.default.CONFLICT, "customer already exist");
+    }
     const newcustomer = yield prismaclient_1.prisma.customer.create({
         data: payload
     });
@@ -22,6 +35,14 @@ const getAllCustomersDB = () => __awaiter(void 0, void 0, void 0, function* () {
     return customers;
 });
 const getCustomerByIdDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const isExiteCustomer = yield prismaclient_1.prisma.customer.findUnique({
+        where: {
+            customerId: id
+        }
+    });
+    if (!isExiteCustomer) {
+        throw new appError_1.default(http_status_1.default.NOT_FOUND, "customer not found");
+    }
     const customer = yield prismaclient_1.prisma.customer.findUnique({
         where: {
             customerId: id
@@ -30,6 +51,14 @@ const getCustomerByIdDB = (id) => __awaiter(void 0, void 0, void 0, function* ()
     return customer;
 });
 const updateCustomerByIdDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const isExiteCustomer = yield prismaclient_1.prisma.customer.findUnique({
+        where: {
+            customerId: id
+        }
+    });
+    if (!isExiteCustomer) {
+        throw new appError_1.default(http_status_1.default.NOT_FOUND, "customer not found");
+    }
     const update = yield prismaclient_1.prisma.$transaction((prismaclient) => __awaiter(void 0, void 0, void 0, function* () {
         yield prismaclient.customer.findFirstOrThrow({
             where: {
@@ -47,6 +76,14 @@ const updateCustomerByIdDB = (id, payload) => __awaiter(void 0, void 0, void 0, 
     return update;
 });
 const deleteCustomerByIdDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const isExiteCustomer = yield prismaclient_1.prisma.customer.findUnique({
+        where: {
+            customerId: id
+        }
+    });
+    if (!isExiteCustomer) {
+        throw new appError_1.default(http_status_1.default.NOT_FOUND, "customer not found");
+    }
     const deleteCustomer = yield prismaclient_1.prisma.$transaction((prismaclient) => __awaiter(void 0, void 0, void 0, function* () {
         yield prismaclient.customer.findFirstOrThrow({
             where: {

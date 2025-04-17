@@ -8,9 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BikeService = void 0;
 const prismaclient_1 = require("../../utils/prismaclient");
+const appError_1 = __importDefault(require("../../errors/appError"));
+const http_status_1 = __importDefault(require("http-status"));
 const createBikeDB = (bike) => __awaiter(void 0, void 0, void 0, function* () {
     const newBike = yield prismaclient_1.prisma.bike.create({
         data: bike
@@ -22,6 +27,14 @@ const getAllBikeDB = () => __awaiter(void 0, void 0, void 0, function* () {
     return allBikes;
 });
 const getBikeDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const isexitebike = yield prismaclient_1.prisma.bike.findUnique({
+        where: {
+            bikeId: id
+        }
+    });
+    if (!isexitebike) {
+        throw new appError_1.default(http_status_1.default.NOT_FOUND, "Bike not found");
+    }
     const bike = yield prismaclient_1.prisma.bike.findUnique({
         where: {
             bikeId: id

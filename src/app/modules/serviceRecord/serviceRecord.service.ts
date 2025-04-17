@@ -1,6 +1,8 @@
 import { Service, Status } from "@prisma/client";
 import { partialUtil } from "zod/lib/helpers/partialUtil";
 import { prisma } from "../../utils/prismaclient";
+import httpStatus from "http-status";
+import AppError from "../../errors/appError";
 
 const createServiceRecordDB= async (payload:Service) => {
     const service = await prisma.service.create({
@@ -15,6 +17,15 @@ const getAllServiceRecordDB= async () => {
 }
 
 const getServiceRecordDB= async (id:string) => {
+    const isexiteService = await prisma.service.findUnique({
+        where: {
+            serviceId: id
+        }
+    })
+    if(!isexiteService){
+        throw new AppError(httpStatus.NOT_FOUND,"Service not found")
+    }
+
     const service = await prisma.service.findUnique({
         where: {
             serviceId: id
@@ -24,6 +35,15 @@ const getServiceRecordDB= async (id:string) => {
 }
 
 const updateServiceRecordDB= async (id:string) => {
+    const isexiteService = await prisma.service.findUnique({
+        where: {
+            serviceId: id
+        }
+    })
+    if(!isexiteService){
+        throw new AppError(httpStatus.NOT_FOUND,"Service not found")
+    }
+
     const update = await prisma.$transaction(async (prismaclient) => {
 
         await prismaclient.service.findFirstOrThrow({

@@ -17,7 +17,7 @@ datasource db {
 model Customer {
   customerId String  @id @default(uuid())
   name        String
-  email       String
+  email       String @unique
   phone      String
   createdAt    DateTime @default(now())
 
