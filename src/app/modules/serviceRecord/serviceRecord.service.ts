@@ -12,6 +12,7 @@ const createServiceRecordDB= async (payload:ServiceRecord) => {
      if(!isbikexits) {
         throw new AppError(httpStatus.NOT_FOUND, "Bike not found")
      }
+     payload.status = payload.status === Status.done || payload.status !== Status.pending ?   payload.status: Status.in_progress
     const service = await prisma.serviceRecord.create({
         data: payload
     })
