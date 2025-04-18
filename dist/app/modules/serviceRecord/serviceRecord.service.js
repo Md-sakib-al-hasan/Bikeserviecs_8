@@ -26,7 +26,6 @@ const createServiceRecordDB = (payload) => __awaiter(void 0, void 0, void 0, fun
     if (!isbikexits) {
         throw new appError_1.default(http_status_1.default.NOT_FOUND, "Bike not found");
     }
-    payload.status = payload.status === client_1.Status.done || payload.status !== client_1.Status.pending ? payload.status : client_1.Status.in_progress;
     const service = yield prismaclient_1.prisma.serviceRecord.create({
         data: payload
     });
