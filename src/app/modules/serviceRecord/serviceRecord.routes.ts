@@ -14,7 +14,7 @@ router.get('/status',ServiceRecordController.getServiceRecordsWithStatus)
 
 router.get('/:id',ServiceRecordController.getServiceRecordById)
 
-router.put('/:id',validateRequest(serviceRecordValidation.updateSericeShma),ServiceRecordController.updateServiceRecordById)
+router.put('/:id',ServiceRecordController.updateServiceRecordById)
 
 
 

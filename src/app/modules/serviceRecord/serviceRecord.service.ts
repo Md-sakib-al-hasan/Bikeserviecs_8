@@ -37,7 +37,7 @@ const getServiceRecordDB= async (id:string) => {
     return service;
 }
 
-const updateServiceRecordDB= async (id:string, payload:Pick<ServiceRecord,  'completionDate'>) => {
+const updateServiceRecordDB= async (id:string, ) => {
 
     const update = await prisma.$transaction(async (prismaclient) => {
 
@@ -50,14 +50,14 @@ const updateServiceRecordDB= async (id:string, payload:Pick<ServiceRecord,  'com
             throw new AppError(httpStatus.NOT_FOUND,"Service not found")
         }
     
-        const compteDate = payload.completionDate ? new Date(payload.completionDate) : new Date();
+     
 
         const updateservices = await prismaclient.serviceRecord.update({
             where:{
                 serviceId:id
             },
             data:{
-                completionDate: compteDate,
+                completionDate: new Date(),
                 status: "done",
             }
         })

@@ -13,5 +13,5 @@ router.post('/', (0, validateRequest_1.default)(serviceRecord_validation_1.servi
 router.get('/', serviceRecord_controller_1.ServiceRecordController.getAllServiceRecords);
 router.get('/status', serviceRecord_controller_1.ServiceRecordController.getServiceRecordsWithStatus);
 router.get('/:id', serviceRecord_controller_1.ServiceRecordController.getServiceRecordById);
-router.put('/:id', (0, validateRequest_1.default)(serviceRecord_validation_1.serviceRecordValidation.updateSericeShma), serviceRecord_controller_1.ServiceRecordController.updateServiceRecordById);
+router.put('/:id', serviceRecord_controller_1.ServiceRecordController.updateServiceRecordById);
 exports.ServiceRecordRouter = router;

@@ -45,7 +45,7 @@ const getServiceRecordDB = (id) => __awaiter(void 0, void 0, void 0, function* (
     }
     return service;
 });
-const updateServiceRecordDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+const updateServiceRecordDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const update = yield prismaclient_1.prisma.$transaction((prismaclient) => __awaiter(void 0, void 0, void 0, function* () {
         const isexiteService = yield prismaclient.serviceRecord.findUnique({
             where: {
@@ -55,13 +55,12 @@ const updateServiceRecordDB = (id, payload) => __awaiter(void 0, void 0, void 0,
         if (!isexiteService) {
             throw new appError_1.default(http_status_1.default.NOT_FOUND, "Service not found");
         }
-        const compteDate = payload.completionDate ? new Date(payload.completionDate) : new Date();
         const updateservices = yield prismaclient.serviceRecord.update({
             where: {
                 serviceId: id
             },
             data: {
-                completionDate: compteDate,
+                completionDate: new Date(),
                 status: "done",
             }
         });

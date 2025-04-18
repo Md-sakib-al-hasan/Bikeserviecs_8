@@ -37,7 +37,7 @@ export const createServiceRecord = catchAsync(async (req: Request, res: Response
   
   export const updateServiceRecordById = catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
-    const result = await ServiceRecordService.updateServiceRecordDB(id,req.body);
+    const result = await ServiceRecordService.updateServiceRecordDB(id);
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
