@@ -54,7 +54,7 @@ This project provides a RESTful API for managing a bike servicing center's opera
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/Md-sakib-al-hasan/Bikeserviecs_8?tab=readme-ov-file
+   git clone https://github.com/Md-sakib-al-hasan/Bikeserviecs_8.git
 
    ```
 
