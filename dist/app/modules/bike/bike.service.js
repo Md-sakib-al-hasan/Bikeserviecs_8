@@ -35,19 +35,14 @@ const getAllBikeDB = () => __awaiter(void 0, void 0, void 0, function* () {
     return allBikes;
 });
 const getBikeDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const isexitebike = yield prismaclient_1.prisma.bike.findUnique({
-        where: {
-            bikeId: id
-        }
-    });
-    if (!isexitebike) {
-        throw new appError_1.default(http_status_1.default.NOT_FOUND, "Bike not found");
-    }
     const bike = yield prismaclient_1.prisma.bike.findUnique({
         where: {
             bikeId: id
         }
     });
+    if (!bike) {
+        throw new appError_1.default(http_status_1.default.NOT_FOUND, "Bike not found");
+    }
     return bike;
 });
 exports.BikeService = {

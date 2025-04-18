@@ -26,19 +26,16 @@ const getAllBikeDB = async () => {
 }
 
 const getBikeDB = async (id:string) => {
-    const isexitebike = await prisma.bike.findUnique({
-        where:{
-            bikeId:id
-        }
-    })
-    if(!isexitebike){
-        throw new AppError(httpStatus.NOT_FOUND,"Bike not found")
-    }
+    
+    
     const bike = await prisma.bike.findUnique({
         where:{
             bikeId:id
         }
     })
+    if(!bike){
+        throw new AppError(httpStatus.NOT_FOUND,"Bike not found")
+    }
     return bike;
 }
 

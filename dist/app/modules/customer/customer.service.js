@@ -35,19 +35,14 @@ const getAllCustomersDB = () => __awaiter(void 0, void 0, void 0, function* () {
     return customers;
 });
 const getCustomerByIdDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const isExistCustomer = yield prismaclient_1.prisma.customer.findUnique({
-        where: {
-            customerId: id
-        }
-    });
-    if (!isExistCustomer) {
-        throw new appError_1.default(http_status_1.default.NOT_FOUND, "customer not found");
-    }
     const customer = yield prismaclient_1.prisma.customer.findUnique({
         where: {
             customerId: id
         }
     });
+    if (!customer) {
+        throw new appError_1.default(http_status_1.default.NOT_FOUND, "customer not found");
+    }
     return customer;
 });
 const updateCustomerByIdDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {

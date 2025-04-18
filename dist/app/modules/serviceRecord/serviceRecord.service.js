@@ -36,19 +36,14 @@ const getAllServiceRecordDB = () => __awaiter(void 0, void 0, void 0, function* 
     return service;
 });
 const getServiceRecordDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const isexiteService = yield prismaclient_1.prisma.serviceRecord.findUnique({
-        where: {
-            serviceId: id
-        }
-    });
-    if (!isexiteService) {
-        throw new appError_1.default(http_status_1.default.NOT_FOUND, "Service not found");
-    }
     const service = yield prismaclient_1.prisma.serviceRecord.findUnique({
         where: {
             serviceId: id
         }
     });
+    if (!service) {
+        throw new appError_1.default(http_status_1.default.NOT_FOUND, "Service not found");
+    }
     return service;
 });
 const updateServiceRecordDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {

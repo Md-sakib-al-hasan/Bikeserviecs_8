@@ -15,7 +15,7 @@ const createCustomerDB = async(payload:Customer) => {
     const newcustomer = await prisma.customer.create({
         data:payload
     })
-return newcustomer;
+    return newcustomer;
 }
 
 const getAllCustomersDB = async() => {
@@ -24,19 +24,16 @@ const getAllCustomersDB = async() => {
 }
 
 const getCustomerByIdDB = async(id:string) => {
-    const isExistCustomer = await prisma.customer.findUnique({
-        where:{
-            customerId:id
-        }
-    })
-    if(!isExistCustomer){
-        throw new AppError(httpStatus.NOT_FOUND,"customer not found")
-    }
+
+
     const customer = await prisma.customer.findUnique({
         where:{
             customerId:id
         }
     })
+    if(!customer){
+        throw new AppError(httpStatus.NOT_FOUND,"customer not found")
+    }
     return customer;
 }
 

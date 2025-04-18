@@ -24,20 +24,16 @@ const getAllServiceRecordDB= async () => {
 }
 
 const getServiceRecordDB= async (id:string) => {
-    const isexiteService = await prisma.serviceRecord.findUnique({
-        where: {
-            serviceId: id
-        }
-    })
-    if(!isexiteService){
-        throw new AppError(httpStatus.NOT_FOUND,"Service not found")
-    }
-
+    
     const service = await prisma.serviceRecord.findUnique({
         where: {
             serviceId: id
         }
     })
+
+    if(!service){
+        throw new AppError(httpStatus.NOT_FOUND,"Service not found")
+    }
     return service;
 }
 
