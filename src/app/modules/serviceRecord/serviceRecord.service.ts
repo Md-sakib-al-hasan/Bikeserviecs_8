@@ -58,7 +58,7 @@ const updateServiceRecordDB= async (id:string, payload:Pick<ServiceRecord,  'com
             },
             data:{
                 completionDate: compteDate,
-                status: Status.done,
+                status: "done",
             }
         })
         return updateservices;
@@ -76,7 +76,7 @@ const getServiceRecordwithStatus = async () => {
         where:
             {
                 status:{
-                    in:[Status.in_progress,Status.pending]
+                    in:["in-progress","pending"]
                 },
                 serviceDate: {
                     lt:sevenDaysAgo

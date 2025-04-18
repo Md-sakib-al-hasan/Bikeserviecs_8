@@ -25,6 +25,11 @@ const globalErrorHandler = (err, req, res, next) => {
         statusCode = http_status_1.default.CONFLICT;
         message = err.message;
     }
+    else if (err.code === 'P2003') {
+        // Foreign key constraint failed
+        statusCode = http_status_1.default.NOT_FOUND;
+        message = "this is foreign key error first deltete the child then parent";
+    }
     else if (err.code === 'P2002') {
         statusCode = http_status_1.default.CONFLICT;
         message = (0, dupliccitonerrr_1.getUniqueFieldsError)(err.message)[0];

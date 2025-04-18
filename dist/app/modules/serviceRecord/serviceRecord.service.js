@@ -13,7 +13,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ServiceRecordService = void 0;
-const client_1 = require("@prisma/client");
 const prismaclient_1 = require("../../utils/prismaclient");
 const http_status_1 = __importDefault(require("http-status"));
 const appError_1 = __importDefault(require("../../errors/appError"));
@@ -63,7 +62,7 @@ const updateServiceRecordDB = (id, payload) => __awaiter(void 0, void 0, void 0,
             },
             data: {
                 completionDate: compteDate,
-                status: client_1.Status.done,
+                status: "done",
             }
         });
         return updateservices;
@@ -76,7 +75,7 @@ const getServiceRecordwithStatus = () => __awaiter(void 0, void 0, void 0, funct
     const service = yield prismaclient_1.prisma.serviceRecord.findMany({
         where: {
             status: {
-                in: [client_1.Status.in_progress, client_1.Status.pending]
+                in: ["in-progress", "pending"]
             },
             serviceDate: {
                 lt: sevenDaysAgo
