@@ -62,7 +62,11 @@ This project provides a RESTful API for managing a bike servicing center's opera
    ```bash
    npm install
    ```
-3. Create a `.env` file in the root directory with the following environment variables:
+3. Go to the project directory:
+   ```bash
+   cd Bikeserviecs_8
+   ```
+4. Create a `.env` file in the root directory with the following environment variables:
 
    ```plaintext
    NODE_ENV=development
@@ -71,11 +75,11 @@ This project provides a RESTful API for managing a bike servicing center's opera
    bcrypt_salt_rounds=10
    ```
 
-4. prisma migrate:
+5. prisma migrate:
    ```bash
       npx prisma migrate dev --name init
    ```
-5. Start the server:
+6. Start the server:
    ```bash
       npm run start
    ```
