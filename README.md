@@ -8,7 +8,7 @@ This project provides a RESTful API for managing a bike servicing center's opera
 ## Live Links
 
 
-- **Backend (Live)**: [Portfolio Backend](https://portfolio-backend5.vercel.app/)
+- **Backend (Live)**: [Portfolio Backend](https://bikeserviecs-8.vercel.app/)
 
 ## Source Code
 
@@ -71,7 +71,11 @@ This project provides a RESTful API for managing a bike servicing center's opera
    bcrypt_salt_rounds=10
    ```
 
-4. Start the server:
+4. prisma migrate:
+   ```bash
+      npx prisma migrate dev --name init
+   ```
+5. Start the server:
    ```bash
       npm run start
    ```
